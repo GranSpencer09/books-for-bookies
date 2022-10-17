@@ -7,11 +7,15 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import ApolloClient from "apollo-boost";
 
 const client = new ApolloClient({
-
-  request:
-
-uri: "/graphql"
-
+  request: (ops) => {
+    const token = localStorage.getItem("id_token");
+    operation.setContext({
+      headers: {
+        authorization: token ? `${token}` : "",
+      },
+    });
+  },
+  uri: "/graphql",
 });
 
 function App() {
