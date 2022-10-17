@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Jumbotron,
   Container,
@@ -14,7 +14,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { REMOVE_BOOK } from "../utils/mutations";
 
 const SavedBooks = () => {
-  const [removeBook, { err }] = useMutation(REMOVE_BOOK);
+  const [removeBook] = useMutation(REMOVE_BOOK);
   const { loading, data } = useQuery(GET_ME);
   const userData = data?.me || {};
 
@@ -59,7 +59,7 @@ const SavedBooks = () => {
     }
 
     try {
-      const { data } = await removeBook({
+      const response = await removeBook({
         variables: { bookId },
       });
       // REMOVING THE FOLLOWING 7 LINES
@@ -79,7 +79,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 
